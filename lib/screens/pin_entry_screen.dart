@@ -12,8 +12,12 @@ import 'package:pinput/pinput.dart';
 class PinEntryScreen extends StatefulWidget {
   final Banks selectedBank;
   final String amount;
+  final TextEditingController textEditingController;
   const PinEntryScreen(
-      {super.key, required this.selectedBank, required this.amount});
+      {super.key,
+      required this.selectedBank,
+      required this.amount,
+      required this.textEditingController});
 
   @override
   State<PinEntryScreen> createState() => _PinEntryScreenState();
@@ -274,8 +278,12 @@ class _PinEntryScreenState extends State<PinEntryScreen>
                                   const SnackBar(content: Text("Enter PIN")));
                               return;
                             }
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SuccessScreen()));
+                            widget.textEditingController.clear();
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => SuccessScreen(
+                                          amount: widget.amount,
+                                        )));
                           },
                           child: Container(
                             decoration: BoxDecoration(

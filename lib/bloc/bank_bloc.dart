@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:curie_pay/model/bank.dart';
 import 'package:curie_pay/repository/bank_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,13 +13,27 @@ class BankBloc extends Bloc<BankEvent, BankState> {
   BankBloc() : super(BankUninitialized()) {
     on<LoadBank>((event, emit) async {
       emit(BankLoading());
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(milliseconds: 700));
       try {
         List<Banks> banks = await _fetchBanks();
         emit(BankLoaded(bankList: banks));
       } catch (e) {
         BankEventFailed(errorMessage: "Failed to load");
       }
+    });
+    on<InitiatePayment>((event, emit) async {
+      emit(BankLoading());
+      Random random = Random();
+      double randomValue = random.nextDouble();
+      bool isSuccess = false;
+
+      if (randomValue < 0.66) {
+        isSuccess = true;
+      } else {
+        isSuccess = false;
+      }
+      await Future.delayed(const Duration(milliseconds: 2000));
+      emit(PaymentComplete(isSuccess: isSuccess));
     });
   }
 

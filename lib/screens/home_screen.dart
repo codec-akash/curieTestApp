@@ -122,6 +122,7 @@ class _HomePageState extends State<HomePage>
                         PaymentCard(
                           amount: _amountController.text,
                           animationController: ringingController,
+                          textEditingController: _amountController,
                         ),
                       ],
                     ),

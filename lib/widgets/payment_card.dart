@@ -8,8 +8,12 @@ import 'package:shimmer/shimmer.dart';
 class PaymentCard extends StatefulWidget {
   final String amount;
   final AnimationController animationController;
+  final TextEditingController textEditingController;
   const PaymentCard(
-      {super.key, required this.amount, required this.animationController});
+      {super.key,
+      required this.amount,
+      required this.animationController,
+      required this.textEditingController});
 
   @override
   State<PaymentCard> createState() => _PaymentCardState();
@@ -17,7 +21,7 @@ class PaymentCard extends StatefulWidget {
 
 class _PaymentCardState extends State<PaymentCard> {
   bool isExpanded = false;
-  bool isLoading = false;
+  bool isLoading = true;
   List<Banks>? banks;
   Banks? selectedBank;
 
@@ -35,7 +39,10 @@ class _PaymentCardState extends State<PaymentCard> {
     }
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => PinEntryScreen(
-            selectedBank: selectedBank!, amount: widget.amount)));
+              selectedBank: selectedBank!,
+              amount: widget.amount,
+              textEditingController: widget.textEditingController,
+            )));
   }
 
   Widget shimmerCard() {
@@ -93,11 +100,6 @@ class _PaymentCardState extends State<PaymentCard> {
         children: [
           BlocListener<BankBloc, BankState>(
             listener: (context, state) {
-              if (state is BankLoading) {
-                setState(() {
-                  isLoading = true;
-                });
-              }
               if (state is BankLoaded) {
                 setState(() {
                   banks = state.bankList;

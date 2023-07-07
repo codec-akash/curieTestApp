@@ -5,3 +5,5 @@ class BankEvent {
 }
 
 class LoadBank extends BankEvent {}
+
+class InitiatePayment extends BankEvent {}

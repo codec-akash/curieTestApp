@@ -31,3 +31,8 @@ class BankEventFailed extends BankState {
 
   BankEventFailed({this.errorMessage});
 }
+
+class PaymentComplete extends BankState {
+  final bool isSuccess;
+  PaymentComplete({required this.isSuccess});
+}
